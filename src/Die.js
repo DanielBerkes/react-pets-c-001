@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Die.css";
 
 class Die extends Component {
-  constructor() {
+  constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -18,7 +18,7 @@ class Die extends Component {
         }}
         onClick={this.handleClick}
       >
-        {this.props.val}{" "}
+        {this.props.val}
       </button>
     );
   }
