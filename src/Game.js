@@ -10,7 +10,9 @@ class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dice: Array.from({ length: NUM_DICE }),
+      dice: Array.from({
+        length: NUM_DICE,
+      }),
       locked: Array(NUM_DICE).fill(false),
       rollsLeft: NUM_ROLLS,
       scores: {
@@ -59,7 +61,10 @@ class Game extends Component {
   doScore(rulename, ruleFn) {
     // evaluate this ruleFn with the dice and score this rulename
     this.setState((st) => ({
-      scores: { ...st.scores, [rulename]: ruleFn(this.state.dice) },
+      scores: {
+        ...st.scores,
+        [rulename]: ruleFn(this.state.dice),
+      },
       rollsLeft: NUM_ROLLS,
       locked: Array(NUM_DICE).fill(false),
     }));
@@ -70,26 +75,29 @@ class Game extends Component {
     return (
       <div className="Game">
         <header className="Game-header">
-          <h1 className="App-title">Yahtzee!</h1>
-
+          <h1 className="App-title"> Yahtzee! </h1>
           <section className="Game-dice-section">
             <Dice
               dice={this.state.dice}
               locked={this.state.locked}
               handleClick={this.toggleLocked}
-            />
+            />{" "}
             <div className="Game-button-wrapper">
               <button
                 className="Game-reroll"
-                disabled={this.state.locked.every((x) => x)}
+                disabled={
+                  this.state.locked.every((x) => x) ||
+                  this.state.rollsLeft === 0
+                }
                 onClick={this.roll}
               >
-                {this.state.rollsLeft} Rerolls Left
-              </button>
-            </div>
-          </section>
-        </header>
-        <ScoreTable doScore={this.doScore} scores={this.state.scores} />
+                {this.state.rollsLeft}
+                Rerolls Left{" "}
+              </button>{" "}
+            </div>{" "}
+          </section>{" "}
+        </header>{" "}
+        <ScoreTable doScore={this.doScore} scores={this.state.scores} />{" "}
       </div>
     );
   }
