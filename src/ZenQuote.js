@@ -6,11 +6,7 @@ export default class ZenQuote extends Component {
     super(props);
     this.state = { quote: "" };
   }
-  componentDidMount() {
-    axios.get("https://api.github.com/zen").then((response) => {
-      this.setState({ quote: response.data });
-    });
-  }
+
   render() {
     return (
       <div>
