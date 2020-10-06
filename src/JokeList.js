@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Joke from "./Joke";
 import "./JokeList.css";
-//box-shadow: 0 19px 38px rgba(0,0,0,0.3), 0 15px 12px rgba(0,0,0,0.5) inset 0 0 25px #7e557c2)
+import { v4 as uuidv4 } from "uuid";
+
 export default class JokeList extends Component {
   static defaultProps = {
     numJokesToGet: 10,
@@ -16,9 +18,16 @@ export default class JokeList extends Component {
       let res = await axios.get("https://icanhazdadjoke.com", {
         headers: { Accept: "application/json" },
       });
-      jokes.push(res.data.joke);
+      jokes.push({ id: uuidv4(), text: res.data.joke, votes: 0 });
     }
     this.setState({ jokes: jokes });
+  }
+  handleVote(id, delta) {
+    this.setState((st) => ({
+      jokes: st.jokes.map((j) =>
+        j.id === id ? { ...j, votes: j.votes + delta } : j
+      ),
+    }));
   }
   render() {
     return (
@@ -35,7 +44,13 @@ export default class JokeList extends Component {
         </div>
         <div className="JokeList-jokes">
           {this.state.jokes.map((j) => (
-            <div>{j}</div>
+            <Joke
+              key={j.id}
+              votes={j.votes}
+              text={j.text}
+              upvote={() => this.handleVote(j.id, 1)}
+              downvote={() => this.handleVote(j.id, -1)}
+            />
           ))}
         </div>
       </div>
