@@ -81,7 +81,7 @@ export default class JokeList extends Component {
             alt=""
           />
           <button className="JokeList-getmore" onClick={this.handleClick}>
-            New Jokes
+            Fetch Jokes
           </button>
         </div>
         <div className="JokeList-jokes">
